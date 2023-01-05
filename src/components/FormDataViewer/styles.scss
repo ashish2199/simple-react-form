@@ -1,0 +1,30 @@
+.form-data-container {
+    margin: 10px;
+    border: 1px solid black;
+    width: 80%;
+
+    .header {
+        font-size: 24px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .form-data-viewer {
+        display: grid;
+        grid-template-columns: 10% 75%;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        margin: 10px;
+        font-size: 18px;
+
+        .data-key, .data-value{
+            display: flex;
+            padding: 5px;
+        }
+
+        .data-key::after {
+            content: ' :'
+        }
+    }
+}
