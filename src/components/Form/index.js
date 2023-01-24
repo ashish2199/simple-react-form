@@ -1,10 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
   initialiseForm,
   resetFormValues,
   validateForm,
 } from "store/actions/Form";
+import { formValidationErrorsSelector } from "store/selectors/Form";
 import { FormContext } from "context/formContext";
 import "./styles.scss";
 
@@ -16,7 +17,6 @@ export default function Form({
   title = "",
 }) {
   const dispatch = useDispatch();
-
   useEffect(function () {
     dispatch(initialiseForm(formName, initialValue));
   }, []);
@@ -26,11 +26,22 @@ export default function Form({
     dispatch(resetAction);
   }
 
+  function validateCurrentForm() {
+    return (dispatch, getState) => {
+      dispatch(validateForm(formName));
+      const state = getState();
+      const validationErrors = formValidationErrorsSelector(formName)(state);
+      return validationErrors;
+    };
+  }
+
   function onSubmitHandler(evt) {
     evt.preventDefault();
     evt.stopPropagation();
-    dispatch(validateForm(formName));
-    onSubmit(evt);
+    const validationErrors = dispatch(validateCurrentForm());
+    if (validationErrors.length === 0) {
+      onSubmit();
+    }
   }
 
   return (

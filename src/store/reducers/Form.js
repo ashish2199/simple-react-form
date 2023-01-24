@@ -61,6 +61,7 @@ export default function formReducer(state = initialState, action) {
           validationErrors: errors,
         },
       };
+      break;
     }
 
     default:

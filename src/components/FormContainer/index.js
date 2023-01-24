@@ -17,6 +17,9 @@ export default function FormContainer() {
         formName="contactForm"
         initialValue={initialValue}
         title="Contact us"
+        onSubmit={() => {
+          alert("Form submitted.");
+        }}
       >
         <Field
           label="Name:"
