@@ -4,6 +4,8 @@ Created a simple form using redux as state management library for managing forms
 
 Features
 
+- Allows you to create forms using [JSON Schema](https://json-schema.org) for specifying the form's data model.
+
 - Allows you to create multiple forms without the need of manually controlling their values and validations.
     - Support for creating multiple forms using `<Form>` and `<Field>` components.
     - Validation and state handled through redux.
