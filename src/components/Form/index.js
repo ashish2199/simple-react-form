@@ -14,9 +14,9 @@ export default function Form({
   onSubmit = () => {},
   children,
   initialValue,
-  title = "",
 }) {
   const dispatch = useDispatch();
+
   useEffect(function () {
     dispatch(initialiseForm(formName, initialValue));
   }, []);
@@ -46,7 +46,6 @@ export default function Form({
 
   return (
     <>
-      {title && <h2>{title}</h2>}
       <form
         className="form"
         onSubmit={onSubmitHandler}

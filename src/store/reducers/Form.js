@@ -40,6 +40,7 @@ export default function formReducer(state = initialState, action) {
           ...state[formName],
           values: {},
           validationErrors: {},
+          containsValidationErrors: false,
         },
       };
       break;
@@ -54,11 +55,13 @@ export default function formReducer(state = initialState, action) {
         errors[fieldName] = error[fieldName];
         return errors;
       }, {});
+      const containsValidationErrors = Object.values(errors).length > 0;
       newState = {
         ...state,
         [formName]: {
           ...state[formName],
           validationErrors: errors,
+          containsValidationErrors,
         },
       };
       break;

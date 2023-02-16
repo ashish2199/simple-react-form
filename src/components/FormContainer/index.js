@@ -1,6 +1,8 @@
+import { startCase } from "lodash";
 import Form from "components/Form";
 import { Field } from "components/Field";
 import { FormDataViewer } from "components/FormDataViewer";
+import formModel from "components/FormContainer/formModel";
 import "./styles.scss";
 
 export default function FormContainer() {
@@ -11,59 +13,69 @@ export default function FormContainer() {
     phone: "8447544220",
   };
 
-  return (
-    <div className="form-container">
+  function getField(fieldConfig) {
+    const {
+      label,
+      name,
+      type,
+      required = false,
+      maxLength = null,
+      minLength = null,
+      maximum = null,
+      minimum = null,
+      pattern = null,
+      description = null,
+      className = null,
+    } = fieldConfig;
+
+    let fieldTypes = {
+      string: "text",
+      number: "number",
+    };
+
+    return (
+      <Field
+        label={label}
+        type={fieldTypes[type]}
+        name={name}
+        required={required}
+        maxLength={maxLength}
+        minLength={minLength}
+        min={minimum}
+        max={maximum}
+        title={description}
+        pattern={pattern}
+        className={className}
+      />
+    );
+  }
+  function getForm(formModel, initialValue) {
+    return (
       <Form
         formName="contactForm"
         initialValue={initialValue}
-        title="Contact us"
         onSubmit={() => {
           alert("Form submitted.");
         }}
       >
-        <Field
-          label="Name:"
-          type="text"
-          name="name"
-          required={true}
-          maxLength={5}
-          minLength={3}
-          title="Please enter your name as per your documents."
-        />
-
-        <Field
-          label="Age:"
-          type="number"
-          name="age"
-          title="Please enter your age as per your documents."
-          placeholder="18 - 100"
-          min="18"
-          max="100"
-        />
-
-        <Field
-          label="Email:"
-          type="email"
-          name="email"
-          title="Please provide only gmail email address"
-          required={true}
-          placeholder="username@gmail.com"
-          pattern=".+@gmail\.com$"
-        />
-
-        <Field
-          label="Enter your phone number:"
-          type="tel"
-          name="phone"
-          title="Please provide registered mobile number"
-          required={true}
-          placeholder="XXXXXXXXXX"
-          pattern="^[0-9]{10}$"
-        />
-
-        <input type="reset" value="Reset" />
+        {Object.entries(formModel.properties).map(([key, value]) => {
+          let requiredFields = formModel.required || [];
+          return getField({
+            ...value,
+            label: `${startCase(key)} :`,
+            name: `${key}`,
+            required: requiredFields.indexOf(key) > -1,
+          });
+        })}
+        <input type="reset" value="Reset" className="red-border" />
         <input type="submit" value="Submit" />
       </Form>
+    );
+  }
+  return (
+    <div className="form-container">
+      <h2>Contact us</h2>
+      {getForm(formModel, initialValue)}
       <FormDataViewer formName="contactForm" />
     </div>
   );

@@ -24,6 +24,7 @@ export function Field({
   max = null,
   maxLength = null,
   minLength = null,
+  className = null,
 }) {
   const dispatch = useDispatch();
   const { formName } = useContext(FormContext);
@@ -80,7 +81,7 @@ export function Field({
         value={fieldValue || ""}
         maxLength={maxLength}
         minLength={minLength}
-        className={fieldErrorMessage && "error-field"}
+        className={fieldErrorMessage ? `error-field ${className}` : className}
       />
       {fieldErrorMessage && (
         <div className="field-error">{fieldErrorMessage}</div>
